@@ -13,3 +13,7 @@ I thought it would be a fun exercise to play with [R](https://www.r-project.org/
 I was also curious about other related questions. For instance, days owned, which might have long gaps, vs. time played. I reduced it to days as well to get approximately similar units.
 
 Finally, I thought it would be interesting to try a (totally unskilled) cohort analysis to see how different groups of players (week started with arbitrary week alignment) game updates interacted (Still haven't gotten a game update overlay).
+
+## Dependencies
+
+This currently assumes things about peer directories in my filesystem, in particular it is using the lifelog data cached by [ohol-family-trees](https://github.com/JustinLove/ohol-family-trees)
