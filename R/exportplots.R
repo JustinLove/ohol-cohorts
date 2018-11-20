@@ -18,11 +18,11 @@ lives %>%
     ) -> summaryowned
 
 ggplot(summaryowned, aes(daysowned, mean_lifetime)) +
-  geom_point()
+  geom_point() + geom_smooth()
 ggsave("mean_lifetime_by_days_owned.png")
 
 ggplot(summaryowned, aes(daysowned, infant_death_rate)) +
-  geom_point()
+  geom_point() + geom_smooth()
 ggsave("infant_death_rate_by_days_owned.png")
 
 # Combined daysplayed
@@ -35,11 +35,11 @@ lives %>%
     ) -> summaryplayed
 
 ggplot(summaryplayed, aes(daysplayed, mean_lifetime)) +
-  geom_point()
+  geom_point() + geom_smooth()
 ggsave("mean_lifetime_by_days_played.png")
 
 ggplot(summaryplayed, aes(daysplayed, infant_death_rate)) +
-  geom_point()
+  geom_point() + geom_smooth()
 ggsave("infant_death_rate_by_days_played.png")
 
 # Separated daysowned
@@ -53,13 +53,13 @@ lives %>%
 
 ggplot(summaryownedgender,
     aes(daysowned, mean_lifetime, color = evegender)) +
-  geom_point() +
+  geom_point() + geom_smooth() +
   scale_color_manual(values=evegenderPalette)
 ggsave("mean_lifetime_by_days_owned_and_gender.png")
 
 ggplot(summaryownedgender,
     aes(daysowned, infant_death_rate, color = evegender)) +
-  geom_point() +
+  geom_point() + geom_smooth() +
   scale_color_manual(values=evegenderPalette)
 ggsave("infant_death_rate_by_days_owned_and_gender.png")
 
@@ -74,13 +74,13 @@ lives %>%
 
 ggplot(summaryplayedgender,
     aes(daysplayed, mean_lifetime, color = evegender)) +
-  geom_point() +
+  geom_point() + geom_smooth() +
   scale_color_manual(values=evegenderPalette)
 ggsave("mean_lifetime_by_days_played_and_gender.png")
 
 ggplot(summaryplayedgender,
     aes(daysplayed, infant_death_rate, color = evegender)) +
-  geom_point() +
+  geom_point() + geom_smooth() +
   scale_color_manual(values=evegenderPalette)
 ggsave("infant_death_rate_by_days_played_and_gender.png")
 
