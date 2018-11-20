@@ -38,3 +38,9 @@ ggplot(lives, aes(evegender, age, color = evegender)) + geom_violin() + scale_co
 
 https://onehouronelife.com/forums/viewtopic.php?pid=35163#p35163
 "Player life expectancy (average life time per day) vs. number of days since game purchase."
+
+density plot of days owned and days played
+curve of best fit
+- mean_lifetime vs. days owned
+- infant death rate vs. days owned
+confidence interval `geom_smooth`
