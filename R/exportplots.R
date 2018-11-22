@@ -2,10 +2,13 @@ library("dplyr")
 library("ggplot2")
 evegenderPalette <- c("#E69F00", "#56B4E9", "#D55E00")
 
-ggplot(lives, aes(daysowned)) + geom_freqpoly()
+ggplot(lives, aes(gameday)) + geom_freqpoly() + labs(y = "lives")
+ggsave("density_days_released.png")
+
+ggplot(lives, aes(daysowned)) + geom_freqpoly() + labs(y = "lives")
 ggsave("density_days_owned.png")
 
-ggplot(lives, aes(daysplayed)) + geom_freqpoly()
+ggplot(lives, aes(daysplayed)) + geom_freqpoly() + labs(y = "lives")
 ggsave("density_days_played.png")
 
 # Combined gameday
