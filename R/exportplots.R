@@ -19,25 +19,24 @@ lives %>%
     ) -> summarygame
 
 ggplot(summarygame, aes(gameday, players)) +
-  geom_point() + geom_smooth()
+  geom_point() +
+  geom_smooth()
 ggsave("unique_players_by_days_released.png")
 
-ggplot(summarygame, aes(gameday, mean_lifetime)) +
-  geom_point()
+ggplot(summarygame, aes(gameday, players)) +
+  geom_point() +
+  geom_smooth()
 ggsave("mean_lifetime_by_days_released.png")
 
-ggplot(summarygame, aes(gameday, infant_death_rate)) +
-  geom_point()
+ggplot(summarygame, aes(gameday)) +
+  geom_point(data=summarygame, aes(y=mean_lifetime)) +
+  geom_smooth(data=lives, aes(y=lifetime))
+ggsave("mean_lifetime_by_days_released.png")
+
+ggplot(summarygame, aes(gameday)) +
+  geom_point(data=summarygame, aes(y=infant_death_rate)) +
+  geom_smooth(data=lives, aes(y=as.numeric(lt1)))
 ggsave("infant_death_rate_by_days_released.png")
-
-ggplot(lives, aes(gameday, lifetime)) +
-  geom_smooth()
-ggsave("mean_lifetime_smooth_by_days_released.png")
-
-ggplot(lives, aes(gameday, as.numeric(lt1))) +
-  labs(y = "infant death rate") +
-  geom_smooth()
-ggsave("infant_death_rate_smooth_by_days_released.png")
 
 # Combined daysowned
 
@@ -48,22 +47,15 @@ lives %>%
     infant_death_rate = mean(lt1)
     ) -> summaryowned
 
-ggplot(summaryowned, aes(daysowned, mean_lifetime)) +
-  geom_point()
+ggplot(summaryowned, aes(daysowned)) +
+  geom_point(data=summaryowned, aes(y=mean_lifetime)) +
+  geom_smooth(data=lives, aes(y=lifetime))
 ggsave("mean_lifetime_by_days_owned.png")
 
-ggplot(summaryowned, aes(daysowned, infant_death_rate)) +
-  geom_point()
+ggplot(summaryowned, aes(daysowned)) +
+  geom_point(data=summaryowned, aes(y=infant_death_rate)) +
+  geom_smooth(data=lives, aes(y=as.numeric(lt1)))
 ggsave("infant_death_rate_by_days_owned.png")
-
-ggplot(lives, aes(daysowned, lifetime)) +
-  geom_smooth()
-ggsave("mean_lifetime_smooth_by_days_owned.png")
-
-ggplot(lives, aes(daysowned, as.numeric(lt1))) +
-  labs(y = "infant death rate") +
-  geom_smooth()
-ggsave("infant_death_rate_smooth_by_days_owned.png")
 
 
 # Combined daysplayed
@@ -75,22 +67,15 @@ lives %>%
     infant_death_rate = mean(lt1)
     ) -> summaryplayed
 
-ggplot(summaryplayed, aes(daysplayed, mean_lifetime)) +
-  geom_point()
+ggplot(summaryplayed, aes(daysplayed)) +
+  geom_point(data=summaryplayed, aes(y=mean_lifetime)) +
+  geom_smooth(data=lives, aes(y=lifetime))
 ggsave("mean_lifetime_by_days_played.png")
 
-ggplot(summaryplayed, aes(daysplayed, infant_death_rate)) +
-  geom_point()
+ggplot(summaryplayed, aes(daysplayed)) +
+  geom_point(data=summaryplayed, aes(y=infant_death_rate)) +
+  geom_smooth(data=lives, aes(y=as.numeric(lt1)))
 ggsave("infant_death_rate_by_days_played.png")
-
-ggplot(lives, aes(daysplayed, lifetime)) +
-  geom_smooth()
-ggsave("mean_lifetime_smooth_by_days_played.png")
-
-ggplot(lives, aes(daysplayed, as.numeric(lt1))) +
-  labs(y = "infant death rate") +
-  geom_smooth()
-ggsave("infant_death_rate_smooth_by_days_played.png")
 
 
 # Separated gameday
@@ -103,27 +88,18 @@ lives %>%
     ) -> summarygamegender
 
 ggplot(summarygamegender,
-    aes(gameday, mean_lifetime, color = evegender)) +
-  geom_point() +
+    aes(gameday, color = evegender)) +
+  geom_point(data=summarygamegender, aes(y=mean_lifetime)) +
+  geom_smooth(data=lives, aes(y=lifetime)) +
   scale_color_manual(values=evegenderPalette)
 ggsave("mean_lifetime_by_days_released_and_gender.png")
 
 ggplot(summarygamegender,
-    aes(gameday, infant_death_rate, color = evegender)) +
-  geom_point() +
+    aes(gameday, color = evegender)) +
+  geom_point(data=summarygamegender, aes(y=infant_death_rate)) +
+  geom_smooth(data=lives, aes(y=as.numeric(lt1))) +
   scale_color_manual(values=evegenderPalette)
 ggsave("infant_death_rate_by_days_released_and_gender.png")
-
-ggplot(lives, aes(gameday, lifetime, color = evegender)) +
-  geom_smooth() +
-  scale_color_manual(values=evegenderPalette)
-ggsave("mean_lifetime_smooth_by_days_released_and_gender.png")
-
-ggplot(lives, aes(gameday, as.numeric(lt1), color = evegender)) +
-  labs(y = "infant death rate") +
-  geom_smooth() +
-  scale_color_manual(values=evegenderPalette)
-ggsave("infant_death_rate_smooth_by_days_released_and_gender.png")
 
 # Separated daysowned
 
@@ -135,27 +111,18 @@ lives %>%
     ) -> summaryownedgender
 
 ggplot(summaryownedgender,
-    aes(daysowned, mean_lifetime, color = evegender)) +
-  geom_point() +
+    aes(daysowned, color = evegender)) +
+  geom_point(data=summaryownedgender, aes(y=mean_lifetime)) +
+  geom_smooth(data=lives, aes(y=lifetime)) +
   scale_color_manual(values=evegenderPalette)
 ggsave("mean_lifetime_by_days_owned_and_gender.png")
 
 ggplot(summaryownedgender,
-    aes(daysowned, infant_death_rate, color = evegender)) +
-  geom_point() +
+    aes(daysowned, color = evegender)) +
+  geom_point(data=summaryownedgender, aes(y=infant_death_rate)) +
+  geom_smooth(data=lives, aes(y=as.numeric(lt1))) +
   scale_color_manual(values=evegenderPalette)
 ggsave("infant_death_rate_by_days_owned_and_gender.png")
-
-ggplot(lives, aes(daysowned, lifetime, color = evegender)) +
-  geom_smooth() +
-  scale_color_manual(values=evegenderPalette)
-ggsave("mean_lifetime_smooth_by_days_owned_and_gender.png")
-
-ggplot(lives, aes(daysowned, as.numeric(lt1), color = evegender)) +
-  labs(y = "infant death rate") +
-  geom_smooth() +
-  scale_color_manual(values=evegenderPalette)
-ggsave("infant_death_rate_smooth_by_days_owned_and_gender.png")
 
 
 # Separated daysplayed
@@ -168,27 +135,18 @@ lives %>%
     ) -> summaryplayedgender
 
 ggplot(summaryplayedgender,
-    aes(daysplayed, mean_lifetime, color = evegender)) +
-  geom_point() +
+    aes(daysplayed, color = evegender)) +
+  geom_point(data=summaryplayedgender, aes(y=mean_lifetime)) +
+  geom_smooth(data=lives, aes(y=lifetime)) +
   scale_color_manual(values=evegenderPalette)
 ggsave("mean_lifetime_by_days_played_and_gender.png")
 
 ggplot(summaryplayedgender,
-    aes(daysplayed, infant_death_rate, color = evegender)) +
-  geom_point() +
+    aes(daysplayed, color = evegender)) +
+  geom_point(data=summaryplayedgender, aes(y=infant_death_rate)) +
+  geom_smooth(data=lives, aes(y=as.numeric(lt1))) +
   scale_color_manual(values=evegenderPalette)
 ggsave("infant_death_rate_by_days_played_and_gender.png")
-
-ggplot(lives, aes(daysplayed, lifetime, color = evegender)) +
-  geom_smooth() +
-  scale_color_manual(values=evegenderPalette)
-ggsave("mean_lifetime_smooth_by_days_played_and_gender.png")
-
-ggplot(lives, aes(daysplayed, as.numeric(lt1), color = evegender)) +
-  labs(y = "infant death rate") +
-  geom_smooth() +
-  scale_color_manual(values=evegenderPalette)
-ggsave("infant_death_rate_smooth_by_days_played_and_gender.png")
 
 # Cohorts
 
@@ -211,7 +169,7 @@ ggplot(cohorts, aes(birthweek, startweek)) +
   geom_raster(aes(fill=log(players))) +
   scale_y_discrete(limits=rev(unique(cohorts$startweek))) +
   theme(axis.text.x = element_text(angle = 60, hjust = 1))
-ggsave("unique_players_log_by_cohorts.png")
+ggsave("unique_players_by_cohorts_log.png")
 
 ggplot(cohorts, aes(birthweek, startweek)) +
   geom_raster(aes(fill=mean_lifetime)) +
