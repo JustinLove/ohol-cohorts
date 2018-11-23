@@ -3,6 +3,9 @@ day1 <- read.table("../ohol-family-trees/cache/lifeLog_server1.onehouronelife.co
 logs <- loaddirectory( "../ohol-family-trees/cache/lifeLog_server1.onehouronelife.com/")
 lives <- derivedlives(logs)
 
+updates <- loadupdates()
+majorupdates <- updates[updates$major == TRUE]
+
 
 servers <- 1:15
 serverpaths <- paste("../ohol-family-trees/cache/lifeLog_server", servers, ".onehouronelife.com/", sep = "")
