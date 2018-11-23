@@ -19,7 +19,8 @@ lives %>%
   summarize(
     mean_lifetime = mean(lifetime),
     infant_death_rate = mean(lt1),
-    players = length(unique(hash))
+    players = length(unique(hash)),
+    mean_kills = mean(kills)
     ) -> summarygame
 
 ggplot(summarygame, aes(gameday, players)) +
@@ -28,6 +29,11 @@ ggplot(summarygame, aes(gameday, players)) +
   geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("unique_players_by_days_released.png")
 
+ggplot(summarygame, aes(gameday)) +
+  geom_point(data=summarygame, aes(y=mean_kills)) +
+  geom_smooth(data=lives, aes(y=kills)) +
+  geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+ggsave("mean_kills_by_days_released.png")
 
 ggplot(summarygame, aes(gameday)) +
   geom_point(data=summarygame, aes(y=mean_lifetime)) +
@@ -47,7 +53,8 @@ lives %>%
   group_by(daysowned) %>%
   summarize(
     mean_lifetime = mean(lifetime),
-    infant_death_rate = mean(lt1)
+    infant_death_rate = mean(lt1),
+    mean_kills = mean(kills)
     ) -> summaryowned
 
 ggplot(summaryowned, aes(daysowned)) +
@@ -60,6 +67,11 @@ ggplot(summaryowned, aes(daysowned)) +
   geom_smooth(data=lives, aes(y=as.numeric(lt1)))
 ggsave("infant_death_rate_by_days_owned.png")
 
+ggplot(summaryowned, aes(daysowned)) +
+  geom_point(data=summaryowned, aes(y=mean_kills)) +
+  geom_smooth(data=lives, aes(y=kills))
+ggsave("mean_kills_by_days_owned.png")
+
 
 # Combined daysplayed
 
@@ -67,7 +79,8 @@ lives %>%
   group_by(daysplayed) %>%
   summarize(
     mean_lifetime = mean(lifetime),
-    infant_death_rate = mean(lt1)
+    infant_death_rate = mean(lt1),
+    mean_kills = mean(kills)
     ) -> summaryplayed
 
 ggplot(summaryplayed, aes(daysplayed)) +
@@ -79,6 +92,11 @@ ggplot(summaryplayed, aes(daysplayed)) +
   geom_point(data=summaryplayed, aes(y=infant_death_rate)) +
   geom_smooth(data=lives, aes(y=as.numeric(lt1)))
 ggsave("infant_death_rate_by_days_played.png")
+
+ggplot(summaryplayed, aes(daysplayed)) +
+  geom_point(data=summaryplayed, aes(y=mean_kills)) +
+  geom_smooth(data=lives, aes(y=kills))
+ggsave("mean_kills_by_days_played.png")
 
 
 # Separated gameday
@@ -161,7 +179,8 @@ lives %>%
     mean_lifetime = mean(lifetime),
     sum_lifetime = sum(lifetime),
     infant_death_rate = mean(lt1),
-    players = length(unique(hash))
+    players = length(unique(hash)),
+    mean_kills = mean(kills)
   ) -> cohorts
 
 ggplot(cohorts, aes(birthweek, startweek)) +
@@ -199,6 +218,14 @@ ggplot(cohorts, aes(birthweek, startweek)) +
   theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
   geom_text(majorupdates, mapping = aes(x= week, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("infant_death_rate_by_cohorts.png")
+
+ggplot(cohorts, aes(birthweek, startweek)) +
+  geom_raster(aes(fill=mean_kills)) +
+  scale_y_discrete(limits=rev(unique(cohorts$startweek))) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  geom_text(majorupdates, mapping = aes(x= week, label = name, y = 0, angle=90, hjust=0), size=3)
+ggsave("mean_kills_by_cohorts.png")
+
 
 # Violin
 
