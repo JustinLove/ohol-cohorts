@@ -3,17 +3,6 @@ day1 <- read.table("../ohol-family-trees/cache/lifeLog_server1.onehouronelife.co
 logs <- loaddirectory( "../ohol-family-trees/cache/lifeLog_server1.onehouronelife.com/")
 lives <- derivedlives(logs)
 
-updates <- loadupdates()
-majorupdates <- updates[updates$major == TRUE]
-
-
-servers <- 1:15
-serverpaths <- paste("../ohol-family-trees/cache/lifeLog_server", servers, ".onehouronelife.com/", sep = "")
-serverlogs <- lapply(serverpaths, FUN=loaddirectory)
-serverlives <- lapply(serverlogs, FUN=derivedlives)
-lives <- do.call("rbind", serverlives)
-lives <- playerstats(lives)
-
 tapply(lives$lifetime, lives$daysowned, mean)
 
 lives$lt1 <- lives$lifetime < 1
