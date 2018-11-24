@@ -1,4 +1,5 @@
-loaddirectory <- function(path) {
+loaddirectory <- function(server, serverpath) {
+  path <- serverpath(server)
   files <- list.files(path = path, full.names=FALSE)
   files <- files[!(files %in% c("index.html", "statsCheckpoint.txt"))]
   files <- files[grep("_names", files, fixed=TRUE) * -1]
@@ -22,5 +23,6 @@ loaddirectory <- function(path) {
   print("binding")
   logs <- do.call("rbind", days)
   logs <- logs[!is.na(logs$V1),]
+  logs$server <- server
   logs
 }

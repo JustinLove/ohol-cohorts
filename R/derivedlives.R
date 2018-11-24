@@ -19,14 +19,15 @@ derivedlives <- function(logs) {
   print("separating records")
   births <- logs[(logs[1] == "B"),]
   deaths <- logs[(logs[1] == "D"),]
-  colnames(births) <- c("record", "birthtime", "playerid", "hash", "gender", "birthcoords", "parent", "birthpop", "chain", "killer")
-  colnames(deaths) <- c("record", "deathtime", "playerid", "hash", "age", "gender", "deathcoords", "causeofdeath", "deathpop", "killer")
+  colnames(births) <- c("record", "birthtime", "playerid", "hash", "gender", "birthcoords", "parent", "birthpop", "chain", "server", "killer")
+  colnames(deaths) <- c("record", "deathtime", "playerid", "hash", "age", "gender", "deathcoords", "causeofdeath", "deathpop", "server", "killer")
   print("merging birth and death")
   biglives <- merge(births, deaths, by.x="playerid", by.y="playerid")
-  lives <- biglives[,c("playerid","birthtime","deathtime","hash.x","gender.x","parent","age","causeofdeath", "killer.y")]
+  lives <- biglives[,c("playerid","birthtime","deathtime","hash.x","gender.x","parent","age","causeofdeath", "server.x", "killer.y")]
   colnames(lives)[4] <- "hash"
   colnames(lives)[5] <- "gender"
-  colnames(lives)[9] <- "killer"
+  colnames(lives)[9] <- "server"
+  colnames(lives)[10] <- "killer"
 
   lives %>%
     filter(!is.na(killer)) %>%
