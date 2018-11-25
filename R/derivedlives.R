@@ -23,7 +23,7 @@ derivedlives <- function(logs) {
   colnames(deaths) <- c("record", "deathtime", "playerid", "hash", "age", "gender", "deathcoords", "causeofdeath", "deathpop", "server", "killer")
   print("merging birth and death")
   biglives <- merge(births, deaths, by.x="playerid", by.y="playerid")
-  lives <- biglives[,c("playerid","birthtime","deathtime","hash.x","gender.x","parent","age","causeofdeath", "server.x", "killer.y")]
+  lives <- biglives[,c("playerid","birthtime","deathtime","hash.x","gender.x","parent","age","causeofdeath", "server.x", "killer.y","birthcoords","deathcoords")]
   colnames(lives)[4] <- "hash"
   colnames(lives)[5] <- "gender"
   colnames(lives)[9] <- "server"
