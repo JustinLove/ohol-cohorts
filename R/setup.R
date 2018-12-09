@@ -3,6 +3,8 @@ source("R/loadupdates.R")
 source("R/derivedlives.R")
 source("R/playerstats.R")
 
+library(dplyr)
+
 servers <- 1:15
 serverpath <- function(server) {
   paste("../ohol-family-trees/cache/lifeLog_server", server, ".onehouronelife.com/", sep = "")
@@ -13,4 +15,4 @@ lives <- do.call("rbind", serverlives)
 lives <- playerstats(lives)
 
 updates <- loadupdates()
-majorupdates <- updates[updates$major == TRUE]
+majorupdates <- updates[updates$major == TRUE,]
