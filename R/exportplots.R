@@ -25,7 +25,7 @@ lives %>%
 
 ggplot(summarygame, aes(gameday, players)) +
   geom_point() +
-  geom_smooth() +
+  geom_smooth(span = 0.1) +
   geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/unique_players_by_days_released.png")
 
