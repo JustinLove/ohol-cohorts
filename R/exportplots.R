@@ -2,6 +2,8 @@ library("dplyr")
 library("ggplot2")
 evegenderPalette <- c("#E69F00", "#56B4E9", "#D55E00")
 
+dangerous <- lives[lives$age >= 8,]
+
 ggplot(lives, aes(gameday)) + geom_freqpoly() + labs(y = "lives") +
   geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/density_days_released.png")
@@ -20,8 +22,13 @@ lives %>%
     mean_lifetime = mean(lifetime),
     infant_death_rate = mean(lt1),
     players = length(unique(hash)),
-    mean_kills = mean(kills)
     ) -> summarygame
+
+dangerous %>%
+  group_by(gameday) %>%
+  summarize(
+    mean_kills = mean(kills)
+    ) -> summarygamekills
 
 ggplot(summarygame, aes(gameday, players)) +
   geom_point() +
@@ -29,9 +36,9 @@ ggplot(summarygame, aes(gameday, players)) +
   geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/unique_players_by_days_released.png")
 
-ggplot(summarygame, aes(gameday)) +
-  geom_point(data=summarygame, aes(y=mean_kills)) +
-  geom_smooth(data=lives, aes(y=kills)) +
+ggplot(summarygamekills, aes(gameday)) +
+  geom_point(data=summarygamekills, aes(y=mean_kills)) +
+  geom_smooth(data=dangerous, aes(y=kills)) +
   geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/mean_kills_by_days_released.png")
 
@@ -54,8 +61,13 @@ lives %>%
   summarize(
     mean_lifetime = mean(lifetime),
     infant_death_rate = mean(lt1),
-    mean_kills = mean(kills)
     ) -> summaryowned
+
+dangerous %>%
+  group_by(daysowned) %>%
+  summarize(
+    mean_kills = mean(kills)
+    ) -> summaryownedkills
 
 ggplot(summaryowned, aes(daysowned)) +
   geom_point(data=summaryowned, aes(y=mean_lifetime)) +
@@ -67,9 +79,9 @@ ggplot(summaryowned, aes(daysowned)) +
   geom_smooth(data=lives, aes(y=as.numeric(lt1)))
 ggsave("output/infant_death_rate_by_days_owned.png")
 
-ggplot(summaryowned, aes(daysowned)) +
-  geom_point(data=summaryowned, aes(y=mean_kills)) +
-  geom_smooth(data=lives, aes(y=kills))
+ggplot(summaryownedkills, aes(daysowned)) +
+  geom_point(data=summaryownedkills, aes(y=mean_kills)) +
+  geom_smooth(data=dangerous, aes(y=kills))
 ggsave("output/mean_kills_by_days_owned.png")
 
 
@@ -80,8 +92,13 @@ lives %>%
   summarize(
     mean_lifetime = mean(lifetime),
     infant_death_rate = mean(lt1),
-    mean_kills = mean(kills)
     ) -> summaryplayed
+
+dangerous %>%
+  group_by(daysplayed) %>%
+  summarize(
+    mean_kills = mean(kills)
+    ) -> summaryplayedkills
 
 ggplot(summaryplayed, aes(daysplayed)) +
   geom_point(data=summaryplayed, aes(y=mean_lifetime)) +
@@ -93,9 +110,9 @@ ggplot(summaryplayed, aes(daysplayed)) +
   geom_smooth(data=lives, aes(y=as.numeric(lt1)))
 ggsave("output/infant_death_rate_by_days_played.png")
 
-ggplot(summaryplayed, aes(daysplayed)) +
-  geom_point(data=summaryplayed, aes(y=mean_kills)) +
-  geom_smooth(data=lives, aes(y=kills))
+ggplot(summaryplayedkills, aes(daysplayed)) +
+  geom_point(data=summaryplayedkills, aes(y=mean_kills)) +
+  geom_smooth(data=dangerous, aes(y=kills))
 ggsave("output/mean_kills_by_days_played.png")
 
 
@@ -180,8 +197,13 @@ lives %>%
     sum_lifetime = sum(lifetime),
     infant_death_rate = mean(lt1),
     players = length(unique(hash)),
-    mean_kills = mean(kills)
   ) -> cohorts
+
+dangerous %>%
+  group_by(startweek, birthweek) %>%
+  summarize(
+    mean_kills = mean(kills)
+  ) -> cohortskills
 
 ggplot(cohorts, aes(birthweek, startweek)) +
   geom_raster(aes(fill=players)) +
@@ -219,9 +241,9 @@ ggplot(cohorts, aes(birthweek, startweek)) +
   geom_text(majorupdates, mapping = aes(x= week, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/infant_death_rate_by_cohorts.png")
 
-ggplot(cohorts, aes(birthweek, startweek)) +
+ggplot(cohortskills, aes(birthweek, startweek)) +
   geom_raster(aes(fill=mean_kills)) +
-  scale_y_discrete(limits=rev(unique(cohorts$startweek))) +
+  scale_y_discrete(limits=rev(unique(cohortskills$startweek))) +
   theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
   geom_text(majorupdates, mapping = aes(x= week, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/mean_kills_by_cohorts.png")
