@@ -1,7 +1,7 @@
 loadFile <- function(file) {
   print(file)
   textLines <- readLines(file, warn=FALSE)
-  counts <- count.fields(file, sep=" ")
+  counts <- count.fields(file, sep=" ", blank.lines.skip=FALSE)
   read.table(text=textLines[counts == 9], header=FALSE, sep=" ")
 }
 
