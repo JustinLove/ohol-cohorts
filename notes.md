@@ -27,6 +27,11 @@ ggplot(cohorts, aes(birthweek, startweek)) + geom_raster(aes(fill=mean_lifetime)
 
 ggplot(lives, aes(evegender, age, color = evegender)) + geom_violin() + scale_color_manual(values=cbPalette)
 
+# Mapping
+lives[lives$birthx < 5000000 & lives$birthx > -5000000,] -> mainarea
+ggplot(mainarea[mainarea$server == 1,], aes(birthx, birthy)) + geom_point(aes(color=gameday)) + coord_fixed()
+
+
 
 https://onehouronelife.com/forums/viewtopic.php?pid=35163#p35163
 "Player life expectancy (average life time per day) vs. number of days since game purchase."

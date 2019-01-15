@@ -41,6 +41,11 @@ derivedlives <- function(logs) {
 
   print("gsub age")
   lives$age <- as.numeric(gsub("age=", "", lives$age))
+  print("coords")
+  lives$birthx <- as.numeric(gsub("\\(|,.*\\)", "", lives$birthcoords))
+  lives$birthy <- as.numeric(gsub("\\(.*,|\\)", "", lives$birthcoords))
+  lives$deathx <- as.numeric(gsub("\\(|,.*\\)", "", lives$deathcoords))
+  lives$deathy <- as.numeric(gsub("\\(.*,|\\)", "", lives$deathcoords))
   lives$gender <- droplevels(lives$gender)
   lives$evegender <- factor(lives$gender, levels=c("F", "M", "EVE"))
   lives$evegender[lives$parent == "noParent"] <- "EVE"
