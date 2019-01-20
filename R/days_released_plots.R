@@ -17,7 +17,7 @@ lives %>%
   summarize(
     mean_lifetime = mean(lifetime),
     infant_death_rate = mean(lt1),
-    players = length(unique(hash)),
+    players = length(unique(hash))
     ) -> summarygame
 
 dangerous %>%
