@@ -16,6 +16,7 @@ lives %>%
   group_by(gameday) %>%
   summarize(
     mean_lifetime = mean(lifetime),
+    sum_lifetime = sum(lifetime),
     infant_death_rate = mean(lt1),
     players = length(unique(hash))
     ) -> summarygame
@@ -43,6 +44,11 @@ ggplot(summarygame, aes(gameday)) +
   geom_smooth(data=lives, aes(y=lifetime)) +
   geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/mean_lifetime_by_days_released.png", width = w, height = h)
+
+ggplot(summarygame, aes(gameday)) +
+  geom_point(data=summarygame, aes(y=sum_lifetime/players)) +
+  geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+ggsave("output/average_playtime_per_player_days_released.png", width = w, height = h)
 
 ggplot(summarygame, aes(gameday)) +
   geom_point(data=summarygame, aes(y=infant_death_rate)) +
