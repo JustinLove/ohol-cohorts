@@ -11,9 +11,10 @@ serverpath <- function(server) {
 }
 serverlogs <- lapply(X = servers, FUN=loaddirectory, serverpath = serverpath)
 bigserverpath <- function(server) {
-  "../ohol-family-trees/cache/lifeLog_bigserver1.onehouronelife.com/"
+  paste("../ohol-family-trees/cache/lifeLog_bigserver", server-15, ".onehouronelife.com/", sep = "")
 }
 serverlogs[[16]] <- loaddirectory(16, serverpath=bigserverpath)
+serverlogs[[17]] <- loaddirectory(17, serverpath=bigserverpath)
 serverlives <- lapply(serverlogs, FUN=derivedlives)
 lives <- do.call("rbind", serverlives)
 lives <- playerstats(lives)
