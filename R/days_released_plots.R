@@ -150,3 +150,9 @@ ggplot(lives, aes(evegender, age, color = evegender)) +
   geom_violin() +
   scale_color_manual(values=evegenderPalette)
 ggsave("output/age_distribution_by_gender.png", width = w, height = h)
+
+ggplot(lives, aes(evegender, age, color = evegender)) +
+  facet_wrap(~birthweek) +
+  geom_violin() +
+  scale_color_manual(values=evegenderPalette)
+ggsave("output/age_distribution_by_gender_by_week.png", width = w*2, height = h*2)
