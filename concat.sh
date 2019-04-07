@@ -1,5 +1,5 @@
 #!/bin/sh
-for d in ../ohol-family-trees/cache/*; do
+for d in ../ohol-family-trees/cache/lifeLog_*; do
   if [ -d "$d" ]; then
     pushd . > /dev/null
     cd "$d"

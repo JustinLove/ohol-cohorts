@@ -1,4 +1,4 @@
-rm("serverlogs", "serverlives", "lives", "updates", "majorupdates")
+rm("serverlogs", "serverlives", "alllives", "lives", "updates", "majorupdates")
 rm("dangerous", "cohorts", "cohortskills")
 rm("summarygame", "summarygamekills", "summarygamegender")
 rm("summaryowned", "summaryownedkills", "summaryownedgender")
