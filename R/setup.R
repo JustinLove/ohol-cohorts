@@ -21,7 +21,8 @@ lives <- playerstats(lives)
 Sys.time() - (12 * 7 * 24 * 60 * 60) -> date_cutoff
 strftime(as.POSIXct(date_cutoff, tz = "GMT", "1970-01-01"), format="%G-%V") -> week_cutoff
 alllives <- lives
-alllives[alllives$birthweek > week_cutoff,] -> lives
 
 updates <- loadupdates()
+
+alllives[alllives$birthweek > week_cutoff,] -> lives
 majorupdates <- updates[updates$major == TRUE & as.POSIXlt(updates$date) > date_cutoff,]
