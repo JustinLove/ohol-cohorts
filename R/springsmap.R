@@ -14,13 +14,17 @@ lives[lives$birthdate > date_cutoff & lives$parent == "noParent",] -> springs
 springs[-40000 < springs$birthx & springs$birthx < 5000000,] -> mainarea
 #springs[-28200 < springs$birthx & springs$birthx < -27600 & -31400 < springs$birthy & springs$birthy < -31000,] -> mainarea
 bs2 <- mainarea[mainarea$server == 17,]
+
+#ggplot(bs2, aes(birthtime)) + geom_histogram()
+
 ggplot(bs2, aes(birthx, birthy)) +
   geom_point(aes(color=birthdate)) +
   coord_fixed()
-  #labs(title='{frame_time}') +
-  #transition_time(birthdate)
-
-  
-#ggplot(bs2, aes(birthtime)) + geom_histogram()
 ggsave("output/springs_spawn2.png", width = w, height = h)
-#anim_save("output/springs_spawn2.gif", width = w, height = h)
+
+ggplot(bs2, aes(birthx, birthy)) +
+  geom_point(aes(color=birthdate)) +
+  coord_fixed() +
+  labs(title='{frame_time}') +
+  transition_time(birthdate)
+anim_save("output/springs_spawn2.gif", width = w, height = h)
