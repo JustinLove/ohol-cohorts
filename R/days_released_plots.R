@@ -35,9 +35,10 @@ ggsave("output/unique_players_by_days_released.png", width = w, height = h)
 
 ggplot(summarygamekills, aes(gameday)) +
   geom_line(data=summarygamekills, aes(y=mean_kills)) +
-  geom_smooth(data=dangerous, aes(y=kills)) +
   geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/mean_kills_by_days_released.png", width = w, height = h)
+#geom_smooth(data=dangerous, aes(y=kills)) +
+  
 
 ggplot(summarygame, aes(gameday)) +
   geom_line(data=summarygame, aes(y=mean_lifetime)) +
