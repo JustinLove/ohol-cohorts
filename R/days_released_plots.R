@@ -18,6 +18,7 @@ lives %>%
     mean_lifetime = mean(lifetime),
     sum_lifetime = sum(lifetime),
     infant_death_rate = mean(lt1),
+    eve_rate = mean(parent == "noParent"),
     players = length(unique(hash))
     ) -> summarygame
 
@@ -56,6 +57,12 @@ ggplot(summarygame, aes(gameday)) +
   geom_smooth(data=lives, aes(y=as.numeric(lt1))) +
   geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/infant_death_rate_by_days_released.png", width = w, height = h)
+
+ggplot(summarygame, aes(gameday)) +
+  geom_line(data=summarygame, aes(y=eve_rate)) +
+  geom_smooth(data=lives, aes(y=as.numeric(parent == "noParent"))) +
+  geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+ggsave("output/eve_rate_by_days_released.png", width = w, height = h)
 
 
 # Separated gameday

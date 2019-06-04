@@ -7,7 +7,7 @@ h <- 4.5
 dangerous <- lives[lives$age >= 8,]
 lives$dangerous <- lives$age >= 8
 lives$old <- lives$age > 55
-eves <- lives[lives$parent == "noParent",]
+eves <- lives[is.na(lives$parent),]
 
 
 ggplot(lives, aes(gameday)) + geom_freqpoly() + labs(y = "lives") +
