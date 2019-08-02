@@ -5,9 +5,10 @@ w <- 7
 h <- 7
 
 dangerous <- lives[lives$age >= 8,]
+new_players <- lives[lives$daysowned == 0,]
 
 ggplot(lives, aes(gameday)) + geom_freqpoly() + labs(y = "lives") +
-  geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+  geom_text(recentupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/density_days_released.png", width = w, height = h)
 
 # Combined gameday
@@ -18,7 +19,7 @@ lives %>%
     mean_lifetime = mean(lifetime),
     sum_lifetime = sum(lifetime),
     infant_death_rate = mean(lt1),
-    eve_rate = mean(parent == "noParent"),
+    eve_rate = mean(is.na(parent)),
     players = length(unique(hash))
     ) -> summarygame
 
@@ -28,15 +29,27 @@ dangerous %>%
     mean_kills = mean(kills)
     ) -> summarygamekills
 
+new_players %>%
+  group_by(gameday) %>%
+  summarize(
+    players = length(unique(hash))
+  ) -> summarynew
+
 ggplot(summarygame, aes(gameday, players)) +
   geom_line() +
-  geom_smooth(span = 0.1) +
-  geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+  geom_smooth(span = 0.2) +
+  geom_text(recentupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/unique_players_by_days_released.png", width = w, height = h)
+
+ggplot(summarynew, aes(gameday, players)) +
+  geom_line() +
+  geom_smooth(span = 0.2) +
+  geom_text(recentupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+ggsave("output/new_players_by_days_released.png", width = w, height = h)
 
 ggplot(summarygamekills, aes(gameday)) +
   geom_line(data=summarygamekills, aes(y=mean_kills)) +
-  geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+  geom_text(recentupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/mean_kills_by_days_released.png", width = w, height = h)
 #geom_smooth(data=dangerous, aes(y=kills)) +
   
@@ -44,24 +57,24 @@ ggsave("output/mean_kills_by_days_released.png", width = w, height = h)
 ggplot(summarygame, aes(gameday)) +
   geom_line(data=summarygame, aes(y=mean_lifetime)) +
   geom_smooth(data=lives, aes(y=lifetime)) +
-  geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+  geom_text(recentupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/mean_lifetime_by_days_released.png", width = w, height = h)
 
 ggplot(summarygame, aes(gameday)) +
   geom_line(data=summarygame, aes(y=sum_lifetime/players)) +
-  geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+  geom_text(recentupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/average_playtime_per_player_days_released.png", width = w, height = h)
 
 ggplot(summarygame, aes(gameday)) +
   geom_line(data=summarygame, aes(y=infant_death_rate)) +
   geom_smooth(data=lives, aes(y=as.numeric(lt1))) +
-  geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+  geom_text(recentupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/infant_death_rate_by_days_released.png", width = w, height = h)
 
 ggplot(summarygame, aes(gameday)) +
   geom_line(data=summarygame, aes(y=eve_rate)) +
-  geom_smooth(data=lives, aes(y=as.numeric(parent == "noParent"))) +
-  geom_text(majorupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+  geom_smooth(data=lives, aes(y=as.numeric(is.na(parent)))) +
+  geom_text(recentupdates, mapping = aes(x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/eve_rate_by_days_released.png", width = w, height = h)
 
 
@@ -79,7 +92,7 @@ ggplot(summarygamegender,
   geom_line(data=summarygamegender, aes(y=mean_lifetime)) +
   geom_smooth(data=lives, aes(y=lifetime)) +
   scale_color_manual(values=evegenderPalette) +
-  geom_text(majorupdates, mapping = aes(color = 'F', x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+  geom_text(recentupdates, mapping = aes(color = 'F', x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/mean_lifetime_by_days_released_and_gender.png", width = w, height = h)
 
 ggplot(summarygamegender,
@@ -87,7 +100,7 @@ ggplot(summarygamegender,
   geom_line(data=summarygamegender, aes(y=infant_death_rate)) +
   geom_smooth(data=lives, aes(y=as.numeric(lt1))) +
   scale_color_manual(values=evegenderPalette) +
-  geom_text(majorupdates, mapping = aes(color = 'M', x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
+  geom_text(recentupdates, mapping = aes(color = 'M', x= gameday, label = name, y = 0, angle=90, hjust=0), size=3)
 ggsave("output/infant_death_rate_by_days_released_and_gender.png", width = w, height = h)
 
 
@@ -99,7 +112,7 @@ lives %>%
     mean_lifetime = mean(lifetime),
     sum_lifetime = sum(lifetime),
     infant_death_rate = mean(lt1),
-    players = length(unique(hash)),
+    players = length(unique(hash))
   ) -> cohorts
 
 dangerous %>%

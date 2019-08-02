@@ -27,4 +27,5 @@ strftime(as.POSIXct(date_cutoff, tz = "GMT", "1970-01-01"), format="%G-%V") -> w
 alllives <- lives
 alllives[alllives$birthweek > week_cutoff,] -> lives
 majorupdates <- updates[updates$major == TRUE & as.POSIXlt(updates$date) > date_cutoff,]
-majorupdates <- updates[as.POSIXlt(updates$date) > date_cutoff,]
+#majorupdates <- updates[as.POSIXlt(updates$date) > date_cutoff,]
+recentupdates <- updates[as.POSIXlt(updates$date) > date_cutoff,]

@@ -1,5 +1,6 @@
 rm("serverlogs", "serverlives", "alllives", "lives", "updates", "majorupdates")
 rm("dangerous", "cohorts", "cohortskills")
+rm("new_players", "summarynew")
 rm("summarygame", "summarygamekills", "summarygamegender")
 rm("summaryowned", "summaryownedkills", "summaryownedgender")
 rm("summaryplayed", "summaryplayedkills", "summaryplayedgender")

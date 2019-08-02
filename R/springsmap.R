@@ -54,6 +54,15 @@ ggplot(target, aes(birthx, birthy)) +
   coord_fixed()
 ggsave("output/lineages.png", width = w, height = h)
 
+ggplot(target, aes(birthx, birthy)) +
+  geom_point(aes(color=fline), size=0.1) +
+  theme_void() +
+  theme(legend.position="none", panel.background=element_rect(fill="transparent"), plot.background = element_rect(fill="transparent", color=NA)) +
+  scale_x_continuous(expand=c(0,0)) + scale_y_continuous(expand=c(0,0)) +
+  coord_fixed()
+ggsave("output/lineages_sample.png", width = w, height = h, bg="transparent")
+
+
   
 ggplot(target, aes(birthx, birthy)) +
   geom_point(aes(color=birthdate)) +
